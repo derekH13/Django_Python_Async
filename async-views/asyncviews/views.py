@@ -25,3 +25,19 @@ async def async_view(request):
 # executadas e lidando com eventos de I/O (como leitura de arquivos,
 # solicitações de rede, etc.) de maneira não bloqueante. Ele permite que o código
 # execute múltiplas tarefas de forma "concorrente", sem precisar de várias threads.
+
+
+async def http_call_async_exercicio():
+    for num in range(1, 8):
+        await asyncio.sleep(1)
+        print(num)
+    async with httpx.AsyncClient() as client:
+        r = await client.get("https://httpbin.org")
+        print(r)
+
+
+async def async_view_exercicio(request):
+    # funciona para criar task para funções async
+    loop = asyncio.get_event_loop()
+    loop.create_task(http_call_async_exercicio())
+    return HttpResponse('Non-blocking FTTP request.')
